@@ -31,12 +31,19 @@ class BreweryApp extends LitElement {
     }
 
     return html`
+      <h1>Breweries App</h1>
+
+      <h2>Breweries</h2>
       <ul>
         ${this.breweries.map(
-          ({ name, type, city }) => html`
+          ({ name, type, city, visited }) => html`
             <li>
-              <brewery-detail .name=${name} .type=${type} .city=${city}>
-              </brewery-detail>
+              <brewery-detail
+                .name=${name}
+                .type=${type}
+                .city=${city}
+                .visited=${visited}
+              ></brewery-detail>
             </li>
           `
         )}
