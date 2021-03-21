@@ -1,4 +1,5 @@
 import { LitElement, html } from "https://unpkg.com/lit-element?module";
+import "https://unpkg.com/@material/mwc-button?module";
 import "./brewery-detail.js";
 
 class BreweryApp extends LitElement {
@@ -46,9 +47,11 @@ class BreweryApp extends LitElement {
       <h2>Breweries</h2>
       <p>(${totalVisited} visited and ${totalNotVisited} still to go)</p>
 
-      <button @click=${this._filterNone}>Filter none</button>
-      <button @click=${this._filterVisited}>Filter visited</button>
-      <button @click=${this._filterNotVisited}>Filter not-visited</button>
+      <mwc-button @click=${this._filterNone}>Filter none</mwc-button>
+      <mwc-button @click=${this._filterVisited}>Filter visited</mwc-button>
+      <mwc-button @click=${this._filterNotVisited}
+        >Filter not-visited</mwc-button
+      >
 
       <ul>
         ${breweries.map(
