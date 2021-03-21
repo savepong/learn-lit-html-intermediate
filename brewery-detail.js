@@ -22,7 +22,7 @@ class BreweryDetail extends LitElement {
   }
 
   _toggleVisitedStatus() {
-    this.visited = !this.visited;
+    this.dispatchEvent(new CustomEvent("toggle-visited-status"));
   }
 }
 

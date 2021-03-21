@@ -30,25 +30,39 @@ class BreweryApp extends LitElement {
       return html` <p>Loading...</p>`;
     }
 
+    const totalVisited = this.breweries.filter((b) => b.visited).length;
+    const totalNotVisited = this.breweries.length - totalVisited;
+
     return html`
       <h1>Breweries App</h1>
 
       <h2>Breweries</h2>
+      <p>(${totalVisited} visited and ${totalNotVisited} still to go)</p>
       <ul>
         ${this.breweries.map(
-          ({ name, type, city, visited }) => html`
+          (brewery) => html`
             <li>
               <brewery-detail
-                .name=${name}
-                .type=${type}
-                .city=${city}
-                .visited=${visited}
+                .name=${brewery.name}
+                .type=${brewery.type}
+                .city=${brewery.city}
+                .visited=${brewery.visited}
+                @toggle-visited-status=${() =>
+                  this._toggleVisitedStatus(brewery)}
               ></brewery-detail>
             </li>
           `
         )}
       </ul>
     `;
+  }
+
+  _toggleVisitedStatus(breweryToUpdate) {
+    this.breweries = this.breweries.map((brewery) => {
+      return brewery === breweryToUpdate
+        ? { ...brewery, visited: !brewery.visited }
+        : brewery;
+    });
   }
 }
 
