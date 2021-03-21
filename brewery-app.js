@@ -2,6 +2,16 @@ import { LitElement, html } from "https://unpkg.com/lit-element?module";
 import "https://unpkg.com/@material/mwc-button?module";
 import "./brewery-detail.js";
 
+function breweryTemplate(brewery, toggleVisitedStatus) {
+  return html`
+    <h3>${brewery.name} (${brewery.visited ? "visited" : "not-visited"})</h3>
+    <p>brewery type: ${brewery.type}</p>
+    <p>city: ${brewery.city}</p>
+    <mwc-button @click=${toggleVisitedStatus}>
+      Mark as ${brewery.visited ? "not-visited" : "visited"}
+    </mwc-button>
+  `;
+}
 class BreweryApp extends LitElement {
   static get properties() {
     return {
@@ -57,14 +67,9 @@ class BreweryApp extends LitElement {
         ${breweries.map(
           (brewery) => html`
             <li>
-              <brewery-detail
-                .name=${brewery.name}
-                .type=${brewery.type}
-                .city=${brewery.city}
-                .visited=${brewery.visited}
-                @toggle-visited-status=${() =>
-                  this._toggleVisitedStatus(brewery)}
-              ></brewery-detail>
+              ${breweryTemplate(brewery, () =>
+                this.toggleVisitedStatus(brewery)
+              )}
             </li>
           `
         )}
@@ -72,7 +77,7 @@ class BreweryApp extends LitElement {
     `;
   }
 
-  _toggleVisitedStatus(breweryToUpdate) {
+  toggleVisitedStatus(breweryToUpdate) {
     this.breweries = this.breweries.map((brewery) => {
       return brewery === breweryToUpdate
         ? { ...brewery, visited: !brewery.visited }
