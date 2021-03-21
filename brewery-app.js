@@ -6,6 +6,7 @@ class BreweryApp extends LitElement {
     return {
       loading: { type: Boolean },
       breweries: { type: Array },
+      filter: { type: String },
     };
   }
 
@@ -32,14 +33,25 @@ class BreweryApp extends LitElement {
 
     const totalVisited = this.breweries.filter((b) => b.visited).length;
     const totalNotVisited = this.breweries.length - totalVisited;
+    const breweries = this.breweries.filter((brewery) => {
+      if (!this.filter) {
+        return true;
+      }
+      return this.filter === "visited" ? brewery.visited : !brewery.visited;
+    });
 
     return html`
       <h1>Breweries App</h1>
 
       <h2>Breweries</h2>
       <p>(${totalVisited} visited and ${totalNotVisited} still to go)</p>
+
+      <button @click=${this._filterNone}>Filter none</button>
+      <button @click=${this._filterVisited}>Filter visited</button>
+      <button @click=${this._filterNotVisited}>Filter not-visited</button>
+
       <ul>
-        ${this.breweries.map(
+        ${breweries.map(
           (brewery) => html`
             <li>
               <brewery-detail
@@ -63,6 +75,18 @@ class BreweryApp extends LitElement {
         ? { ...brewery, visited: !brewery.visited }
         : brewery;
     });
+  }
+
+  _filterNone() {
+    this.filter = null;
+  }
+
+  _filterVisited() {
+    this.filter = "visited";
+  }
+
+  _filterNotVisited() {
+    this.filter = "not-visited";
   }
 }
 
