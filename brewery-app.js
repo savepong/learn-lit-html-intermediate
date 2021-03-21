@@ -30,7 +30,18 @@ class BreweryApp extends LitElement {
       return html` <p>Loading...</p>`;
     }
 
-    return html`<pre>${JSON.stringify(this.breweries, null, 2)}</pre>`;
+    return html`
+      <ul>
+        ${this.breweries.map(
+          ({ name, type, city }) => html`
+            <li>
+              <brewery-detail .name=${name} .type=${type} .city=${city}>
+              </brewery-detail>
+            </li>
+          `
+        )}
+      </ul>
+    `;
   }
 }
 

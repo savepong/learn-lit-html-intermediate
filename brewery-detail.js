@@ -17,3 +17,5 @@ class BreweryDetail extends LitElement {
     `;
   }
 }
+
+customElements.define("brewery-detail", BreweryDetail);
